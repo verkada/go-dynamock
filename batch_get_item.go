@@ -62,7 +62,7 @@ func (e *MockDynamoDB) BatchGetItemWithContext(ctx aws.Context, input *dynamodb.
 }
 
 // BatchGetItemPages - this func will be invoked when test running matching expectation with actual input
-func (e *MockDynamoDB) BatchGetItemPages(ctx aws.Context, input *dynamodb.BatchGetItemInput, fn func(*dynamodb.BatchGetItemOutput, bool) bool) error {
+func (e *MockDynamoDB) BatchGetItemPages(input *dynamodb.BatchGetItemInput, fn func(*dynamodb.BatchGetItemOutput, bool) bool) error {
 	if len(e.dynaMock.BatchGetItemExpect) > 0 {
 		x := e.dynaMock.BatchGetItemExpect[0] //get first element of expectation
 

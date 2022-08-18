@@ -60,3 +60,43 @@ func (e *MockDynamoDB) BatchGetItemWithContext(ctx aws.Context, input *dynamodb.
 
 	return &dynamodb.BatchGetItemOutput{}, fmt.Errorf("Batch Get Item With Context Expectation Not Found")
 }
+
+// BatchGetItemPages - this func will be invoked when test running matching expectation with actual input
+func (e *MockDynamoDB) BatchGetItemPages(ctx aws.Context, input *dynamodb.BatchGetItemInput, fn func(*dynamodb.BatchGetItemOutput, bool) bool) error {
+	if len(e.dynaMock.BatchGetItemExpect) > 0 {
+		x := e.dynaMock.BatchGetItemExpect[0] //get first element of expectation
+
+		if x.input != nil {
+			if !reflect.DeepEqual(x.input, input.RequestItems) {
+				return fmt.Errorf("Expect input %+v but found input %+v", x.input, input.RequestItems)
+			}
+		}
+
+		// delete first element of expectation
+		e.dynaMock.BatchGetItemExpect = append(e.dynaMock.BatchGetItemExpect[:0], e.dynaMock.BatchGetItemExpect[1:]...)
+		fn(x.output, false)
+		return nil
+	}
+
+	return fmt.Errorf("Batch Get Item With Context Expectation Not Found")
+}
+
+// BatchGetItemPagesWithContext - this func will be invoked when test running matching expectation with actual input
+func (e *MockDynamoDB) BatchGetItemPagesWithContext(ctx aws.Context, input *dynamodb.BatchGetItemInput, fn func(*dynamodb.BatchGetItemOutput, bool) bool, opt ...request.Option) error {
+	if len(e.dynaMock.BatchGetItemExpect) > 0 {
+		x := e.dynaMock.BatchGetItemExpect[0] //get first element of expectation
+
+		if x.input != nil {
+			if !reflect.DeepEqual(x.input, input.RequestItems) {
+				return fmt.Errorf("Expect input %+v but found input %+v", x.input, input.RequestItems)
+			}
+		}
+
+		// delete first element of expectation
+		e.dynaMock.BatchGetItemExpect = append(e.dynaMock.BatchGetItemExpect[:0], e.dynaMock.BatchGetItemExpect[1:]...)
+		fn(x.output, false)
+		return nil
+	}
+
+	return fmt.Errorf("Batch Get Item With Context Expectation Not Found")
+}

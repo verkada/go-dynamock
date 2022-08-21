@@ -3,6 +3,7 @@ package dynamock
 import (
 	"fmt"
 	"reflect"
+	"runtime/debug"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/request"
@@ -33,7 +34,7 @@ func (e *MockDynamoDB) BatchWriteItem(input *dynamodb.BatchWriteItemInput) (*dyn
 			}
 		}
 	}
-
+	debug.PrintStack()
 	return &dynamodb.BatchWriteItemOutput{}, fmt.Errorf("Batch Write Item Expectation Failed. Expected one of %+v to equal %+v", e.dynaMock.BatchWriteItemExpect, input.RequestItems)
 }
 
@@ -53,6 +54,6 @@ func (e *MockDynamoDB) BatchWriteItemWithContext(ctx aws.Context, input *dynamod
 
 		return x.output, nil
 	}
-
+	debug.PrintStack()
 	return &dynamodb.BatchWriteItemOutput{}, fmt.Errorf("Batch Write Item Expectation Not Found")
 }

@@ -3,6 +3,7 @@ package dynamock
 import (
 	"fmt"
 	"reflect"
+	"runtime/debug"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/request"
@@ -49,7 +50,7 @@ func (e *MockDynamoDB) GetItem(input *dynamodb.GetItemInput) (*dynamodb.GetItemO
 
 		return x.output, nil
 	}
-
+	debug.PrintStack()
 	return &dynamodb.GetItemOutput{}, fmt.Errorf("Get Item Expectation Not Found")
 }
 
@@ -75,6 +76,6 @@ func (e *MockDynamoDB) GetItemWithContext(ctx aws.Context, input *dynamodb.GetIt
 
 		return x.output, nil
 	}
-
+	debug.PrintStack()
 	return &dynamodb.GetItemOutput{}, fmt.Errorf("Get Item With Context Expectation Not Found")
 }

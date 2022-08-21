@@ -3,6 +3,7 @@ package dynamock
 import (
 	"fmt"
 	"reflect"
+	"runtime/debug"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/request"
@@ -49,7 +50,7 @@ func (e *MockDynamoDB) DeleteItem(input *dynamodb.DeleteItemInput) (*dynamodb.De
 
 		return x.output, nil
 	}
-
+	debug.PrintStack()
 	return &dynamodb.DeleteItemOutput{}, fmt.Errorf("Delete Item Expectation Not Found")
 }
 
@@ -75,6 +76,6 @@ func (e *MockDynamoDB) DeleteItemWithContext(ctx aws.Context, input *dynamodb.De
 
 		return x.output, nil
 	}
-
+	debug.PrintStack()
 	return &dynamodb.DeleteItemOutput{}, fmt.Errorf("Delete Item With Context Expectation Not Found")
 }

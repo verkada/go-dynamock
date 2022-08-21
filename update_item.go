@@ -3,6 +3,7 @@ package dynamock
 import (
 	"fmt"
 	"reflect"
+	"runtime/debug"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/request"
@@ -61,7 +62,7 @@ func (e *MockDynamoDB) UpdateItem(input *dynamodb.UpdateItemInput) (*dynamodb.Up
 
 		return x.output, nil
 	}
-
+	debug.PrintStack()
 	return &dynamodb.UpdateItemOutput{}, fmt.Errorf("Update Item Expectation Not Found")
 }
 
@@ -93,6 +94,6 @@ func (e *MockDynamoDB) UpdateItemWithContext(ctx aws.Context, input *dynamodb.Up
 
 		return x.output, nil
 	}
-
+	debug.PrintStack()
 	return &dynamodb.UpdateItemOutput{}, fmt.Errorf("Update Item With Context Expectation Not Found")
 }

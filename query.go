@@ -2,6 +2,7 @@ package dynamock
 
 import (
 	"fmt"
+	"runtime/debug"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/request"
@@ -36,7 +37,7 @@ func (e *MockDynamoDB) Query(input *dynamodb.QueryInput) (*dynamodb.QueryOutput,
 
 		return x.output, nil
 	}
-
+	debug.PrintStack()
 	return &dynamodb.QueryOutput{}, fmt.Errorf("Query Table Expectation Not Found")
 }
 
@@ -56,7 +57,7 @@ func (e *MockDynamoDB) QueryWithContext(ctx aws.Context, input *dynamodb.QueryIn
 
 		return x.output, nil
 	}
-
+	debug.PrintStack()
 	return &dynamodb.QueryOutput{}, fmt.Errorf("Query Table With Context Expectation Not Found")
 }
 
@@ -77,7 +78,7 @@ func (e *MockDynamoDB) QueryPages(input *dynamodb.QueryInput, fn func(*dynamodb.
 		fn(x.output, true)
 		return nil
 	}
-
+	debug.PrintStack()
 	return fmt.Errorf("Query Table By Page Expectation Not Found")
 }
 
@@ -98,6 +99,6 @@ func (e *MockDynamoDB) QueryPagesWithContext(ctx aws.Context, input *dynamodb.Qu
 		fn(x.output, true)
 		return nil
 	}
-
+	debug.PrintStack()
 	return fmt.Errorf("Query Table By Page With Context Expectation Not Found")
 }

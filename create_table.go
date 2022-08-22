@@ -3,6 +3,7 @@ package dynamock
 import (
 	"fmt"
 	"reflect"
+	"runtime/debug"
 
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 )
@@ -47,6 +48,6 @@ func (e *MockDynamoDB) CreateTable(input *dynamodb.CreateTableInput) (*dynamodb.
 
 		return x.output, nil
 	}
-
+	debug.PrintStack()
 	return &dynamodb.CreateTableOutput{}, fmt.Errorf("Create Table Expectation Not Found")
 }

@@ -3,6 +3,7 @@ package dynamock
 import (
 	"fmt"
 	"reflect"
+	"runtime/debug"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/request"
@@ -37,7 +38,7 @@ func (e *MockDynamoDB) BatchGetItem(input *dynamodb.BatchGetItemInput) (*dynamod
 
 		return x.output, nil
 	}
-
+	debug.PrintStack()
 	return &dynamodb.BatchGetItemOutput{}, fmt.Errorf("Batch Get Item Expectation Not Found")
 }
 
@@ -57,7 +58,7 @@ func (e *MockDynamoDB) BatchGetItemWithContext(ctx aws.Context, input *dynamodb.
 
 		return x.output, nil
 	}
-
+	debug.PrintStack()
 	return &dynamodb.BatchGetItemOutput{}, fmt.Errorf("Batch Get Item With Context Expectation Not Found")
 }
 
@@ -77,7 +78,7 @@ func (e *MockDynamoDB) BatchGetItemPages(input *dynamodb.BatchGetItemInput, fn f
 		fn(x.output, false)
 		return nil
 	}
-
+	debug.PrintStack()
 	return fmt.Errorf("Batch Get Item With Context Expectation Not Found")
 }
 
@@ -97,6 +98,6 @@ func (e *MockDynamoDB) BatchGetItemPagesWithContext(ctx aws.Context, input *dyna
 		fn(x.output, false)
 		return nil
 	}
-
+	debug.PrintStack()
 	return fmt.Errorf("Batch Get Item With Context Expectation Not Found")
 }

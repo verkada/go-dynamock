@@ -2,6 +2,7 @@ package dynamock
 
 import (
 	"fmt"
+	"runtime/debug"
 
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 )
@@ -34,6 +35,6 @@ func (e *MockDynamoDB) DescribeTable(input *dynamodb.DescribeTableInput) (*dynam
 
 		return x.output, nil
 	}
-
+	debug.PrintStack()
 	return &dynamodb.DescribeTableOutput{}, fmt.Errorf("Describe Table Expectation Not Found")
 }
